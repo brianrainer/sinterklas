@@ -1,31 +1,8 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+{% extends 'jobs/base.html' %}
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="css/bootstrap.min.css">
+{% block title %} Software Engineer Intern {% endblock %}
 
-    <title>Software Engineer Intern - Sinterklas.com</title>
-  </head>
-  <body>
-    <div class="container">
-      <!-- Navbar -->
-      <nav class="navbar navbar-expand navbar-light border-bottom mb-3">
-        <a class="navbar-brand font-weight-bold" href="index.html">Sinterklas.com</a>
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="#">Daftar</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Masuk</a>
-          </li>
-        </ul>
-      </nav>
-
-      <div class="p-3">
+{% block content %}
         <form>
           <div class="row">
             <div class="col-md-3">
@@ -65,13 +42,4 @@
             <a href="#" class="btn btn-primary btn-lg">Lamar Pekerjaan</a>
           </div>
         </div>
-      </div>
-    </div>
-
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="js/jquery-3.2.1.slim.min.js"></script>
-    <script src="js/popper.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-  </body>
-</html>
+{% endblock %}
