@@ -9,6 +9,12 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <!-- Custom CSS -->
+    <style>
+      {% block css %}{% endblock %}
+    </style>
 
     <title>{% block title %}{% endblock %} - Sinterklas.com</title>
   </head>

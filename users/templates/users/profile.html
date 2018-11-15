@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block title %} {{ user.get_full_name }} {% endblock %}
+
+{% block content %}
+  <p><b>Profil Pekerja Lepas</b></p>
+
+  <div class="row profile mb-5">
+    <div class="col-md-2">
+      <img src="{{ MEDIA_URL }}{{ user.photo }}" width="100%" class="profile-photo">
+    </div>
+    <div class="col-md-8">
+      <h1>{{ user.get_full_name }}</h1>
+      <p>{{ user.bio }}</p>
+      <p>{{ user.location }}</p>
+      <p><a href="{{ user.linkedin_url }}">Kunjungi Linkedin</a></p>
+    </div>
+    <div class="col-md-2">
+      <a href="mailto:{{ user.email }}" class="btn btn-primary">Hubungi via Email</a>
+    </div>
+  </div>
+
+  <p><b>Histori dan Ulasan</b></p>
+  {% for employment in employments %}
+    <div class="job mb-5">
+      <p><a href="{% url 'job' id=employment.application.job.id %}">{{ employment.application.job.title }}</a></p>
+      <p>{{ employment.date_started|date:"D d M Y" }} - {{ employment.date_ended|date:"D d M Y" }}</p>
+      <p>
+        {% for _ in "x"|rjust:employment.rating %}
+          <span class="fa fa-star checked"></span>
+        {% endfor %}
+      </p>
+      <p>{{ employment.review }}</p>
+    </div>
+  {% endfor %}
+{% endblock %}
+
+{% block css %}
+  .profile h1 {
+    font-size: 1.5rem;
+  }
+
+  .profile p,
+  .job p {
+    margin-bottom: 0.5rem;
+  }
+
+  .checked {
+    color: orange;
+  }
+{% endblock %}

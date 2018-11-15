@@ -31,4 +31,4 @@ class Employment(models.Model):
     review = models.TextField()
 
     def __str__(self):
-        return '{}, {}'.format(self.user, self.job)
+        return str(self.application)
