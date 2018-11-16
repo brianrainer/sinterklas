@@ -5,7 +5,7 @@
 {% block content %}
   <h1 class="display-4 mb-4">Cari Pekerjaan</h1>
 
-  <form>
+  <form action="/jobs">
     <div class="row">
       <div class="col-md-3">
         <label for="keyword">Kata kunci</label>
@@ -16,13 +16,13 @@
     </div>
     <div class="form-row">
       <div class="form-group col-md-3">
-        <input type="text" class="form-control" id="keyword" placeholder="Kata kunci">
+        <input type="text" name="keyword" class="form-control" id="keyword" placeholder="Kata kunci" value="{{ keyword }}">
       </div>
       <div class="form-group col-md-3">
-        <input type="text" class="form-control" id="location" placeholder="Lokasi">
+        <input type="text" name="location" class="form-control" id="location" placeholder="Lokasi" value="{{ location }}">
       </div>
-      <div class="form-group col-md-3">
-        <button type="submit" class="btn btn-primary ">Cari</button>
+      <div class="form-group col-md-1">
+        <button type="submit" class="btn btn-primary">Cari</button>
       </div>
     </div>
   </form>
@@ -31,44 +31,15 @@
 
   <div class="row">
     <div class="col-md-8">
-      <p>Menamplikan 10 dari 102 pekerjaan)</p>
+      <p>Menemukan {{ jobs|length }} pekerjaan</p>
 
-      <div class="my-4">
-        <div><a href="/jobs/1">Software Engineer Intern</a></div>
-        <div>PT. Kuda</div>
-        <div>Surabaya</div>
-        <p class="my-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec tortor lectus, volutpat sit amet porttitor ut, tincidunt et nunc. In hac habitasse platea dictumst. Praesent placerat pretium neque, feugiat maximus ligula lacinia sit amet. Nulla facilisi.</p>
-      </div>
-      <div class="my-4">
-        <div><a href="/jobs/1">Backend Developer</a></div>
-        <div>PT. Hahaha</div>
-        <div>Jakarta</div>
-        <p class="my-2">Duis non scelerisque est. Proin eget sodales orci. Maecenas gravida ante ac libero ultricies, at ornare tortor tincidunt. In neque dolor, euismod nec tellus ac, lacinia pulvinar elit.</p>
-      </div>
-      <div class="my-4">
-        <div><a href="/jobs/1">Front End Developer</a></div>
-        <div>PT. Sa</div>
-        <div>Bandung</div>
-        <p class="my-2">Cras at luctus eros. Nullam dignissim nisi eleifend porta molestie. Donec eu odio maximus, vulputate eros at, molestie risus. Nunc at nibh lectus. Vivamus ut arcu tincidunt, ultricies mi pharetra, ornare orci. Donec eu urna ullamcorper, condimentum nisl quis, porta elit.</p>
-      </div>
-      <div class="my-4">
-        <div><a href="/jobs/1">Software Engineer</a></div>
-        <div>PT. Lmao</div>
-        <div>Surabaya</div>
-        <p class="my-2">Morbi ac tortor vel lacus sodales consectetur. Curabitur dolor metus, gravida vel metus ac, rutrum feugiat tellus. Integer malesuada, lorem auctor fermentum laoreet.</p>
-      </div>
+      {% for job in jobs %}
+        <div class="my-4">
+          <div><a href="{% url 'job' id=job.id %}">{{ job.title }}</a></div>
+          <div>{{ job.location }}</div>
+          <p class="my-2">{{ job.description|slice:'0:250' }}...</p>
+        </div>
+      {% endfor %}
     </div>
   </div>
-
-  <nav class="my-4">
-    <ul class="pagination">
-      <li class="page-item disabled"><a class="page-link" href="#" tabindex="-1">Sebelumnya</a></li>
-      <li class="page-item active"><a class="page-link" href="#">1 <span class="sr-only">(current)</span></a></li>
-      <li class="page-item"><a class="page-link" href="#">2</a></li>
-      <li class="page-item"><a class="page-link" href="#">3</a></li>
-      <li class="page-item"><a class="page-link" href="#">4</a></li>
-      <li class="page-item"><a class="page-link" href="#">5</a></li>
-      <li class="page-item"><a class="page-link" href="#">Selanjutanya</a></li>
-    </ul>
-  </nav>
 {% endblock %}
