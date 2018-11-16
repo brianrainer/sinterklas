@@ -12,3 +12,11 @@ def profile(request, username):
         'user': user,
         'employments': employments
     })
+
+
+def login(request):
+    return render(request, 'users/login.html')
+
+
+def register(request):
+    return render(request, 'users/register.html')

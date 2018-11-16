@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}Register{% endblock %}
+
+{% block content %}
+  <form method="post" class="form-center">
+    <h4 class="text-center">Register</h4>
+
+    {% if error %}
+      <div class="alert alert-danger alert-dismissible fade show mt-3">
+        Email/username sudah terpakai.
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+      </div>
+    {% endif %}
+
+    <div class="form-group">
+      <label for="name">Nama Lengkap</label>
+      <input type="text" class="form-control" id="name" name="name" placeholder="Nama Lengkap" required autofocus>
+    </div>
+    <div class="form-group">
+      <label for="username">Username</label>
+      <input type="text" class="form-control" id="username" name="username" placeholder="Username" required>
+    </div>
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input type="email" class="form-control" id="email" name="email" placeholder="Email" required>
+    </div>
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+    </div>
+    <button type="submit" class="btn btn-primary btn-block">Register</button>
+    <p class="mt-3">Sudah punya akun? <a href="{% url 'login' %}">Login</a>.</p>
+  </form>
+{% endblock %}
+
+{% block css %}
+  .form-center {
+      width: 100%;
+      max-width: 300px;
+      margin: 0 auto;
+  }
+{% endblock %}

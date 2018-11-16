@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ course.title }}{% endblock %}
+
+{% block content %}
+  <hr class="my-4">
+
+  <div class="row">
+    <div class="col-md-8">
+      <h1>{{ course.title }}</h1>
+      <form>
+      {% for test in tests %}
+        <div class="my-4">
+          <p class="my-2">{{test.question}}</p>
+          <input type="radio" name="choiceA" value="{{test.choiceA}}"> 
+          <input type="radio" name="choiceB" value="{{test.choiceB}}"> 
+          <input type="radio" name="choiceC" value="{{test.choiceC}}"> 
+          <input type="radio" name="choiceD" value="{{test.choiceD}}"> 
+        </div>
+      {% endfor %}
+      <input type="submit" name="submit">
+      </form>
+    </div>
+  </div>
+{% endblock %}

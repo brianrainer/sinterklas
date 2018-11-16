@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ course.title }}{% endblock %}
+
+{% block content %}
+  <hr class="my-4">
+
+  <div class="row">
+    <div class="col-md-8">
+      <h1>{{ course.title }}</h1>
+      <div class="my-2">{{ course.description|linebreaks }}</div>
+      <div class="mb-4">Dibuat {{ course.date_created }}</div>
+      <a href="#" class="btn btn-primary btn-lg">Ikuti Kuis</a>
+    </div>
+  </div>
+{% endblock %}
