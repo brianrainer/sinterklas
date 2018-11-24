@@ -4,18 +4,29 @@
 
 {% block content %}
   <form method="post" class="form-center">
-    <h4 class="text-center">Register</h4>
+    {% csrf_token %}
+    <h4 class="text-center mb-4">Registrasi</h4>
 
-    {% if error %}
-      <div class="alert alert-danger alert-dismissible fade show mt-3">
-        Email/username sudah terpakai.
-        <button type="button" class="close" data-dismiss="alert">&times;</button>
-      </div>
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-danger alert-dismissible fade show mt-3">
+          {{ message }}
+          <button type="button" class="close" data-dismiss="alert">&times;</button>
+        </div>
+      {% endfor %}
     {% endif %}
 
     <div class="form-group">
-      <label for="name">Nama Lengkap</label>
-      <input type="text" class="form-control" id="name" name="name" placeholder="Nama Lengkap" required autofocus>
+      <div class="form-row">
+        <div class="col">
+          <label for="first_name">Nama Depan</label>
+          <input type="text" class="form-control" id="first_name" name="first_name" placeholder="Nama Depan" required autofocus>
+        </div>
+        <div class="col">
+          <label for="last_name">Nama Belakang</label>
+          <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Nama Belakang" required>
+        </div>
+      </div>
     </div>
     <div class="form-group">
       <label for="username">Username</label>
@@ -37,7 +48,7 @@
 {% block css %}
   .form-center {
       width: 100%;
-      max-width: 300px;
+      max-width: 400px;
       margin: 0 auto;
   }
 {% endblock %}

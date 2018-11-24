@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+  <h4>Hi {{ user.first_name }},</h4>
+  <a href="{% url 'profile' username=user.username %}">Lihat Profil</a>
+
+  <div class="row mt-5">
+    <div class="col-md-6">
+      <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#new-job">Buat Pekerjaan</button>
+    </div>
+    <div class="col-md-6">
+      <form action="/jobs">
+        <p><b>Cari pekerjaan</b></p>
+        <div class="row">
+          <div class="col-md-5">
+            <label for="keyword">Kata kunci</label>
+          </div>
+          <div class="col-md-5">
+            <label for="location">Lokasi</label>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-5">
+            <input type="text" name="keyword" class="form-control" id="keyword" placeholder="Kata kunci">
+          </div>
+          <div class="form-group col-md-5">
+            <input type="text" name="location" class="form-control" id="location" placeholder="Lokasi">
+          </div>
+          <div class="form-group col-md-1">
+            <button type="submit" class="btn btn-primary">Cari</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="row mt-5">
+    <div class="col-md-6">
+        <p><b>Pekerjaan Yang Saya Buat</b></p>
+        {% if jobs|length == 0 %}
+          <p>Belum ada pekerjaan.</p>
+        {% endif %}
+
+        {% for job in jobs %}
+          <div class="row mb-2">
+            <div class="col-md-6">
+              <a href="{% url 'job' id=job.id %}">{{ job.title }}</a>
+            </div>
+            <div class="col-md-6">
+              {{ job.date_created }}
+            </div>
+          </div>
+        {% endfor %}
+    </div>
+    <div class="col-md-6">
+      <p><b>Lamaran Saya</b></p>
+      {% if applications|length == 0 %}
+        <p>Belum ada lamaran.</p>
+      {% endif %}
+
+      {% for application in applications %}
+        <div class="row mb-2">
+          <div class="col-md-6">
+            <a href="{% url 'job' id=application.job.id %}">{{ application.job.title }}</a>
+          </div>
+          <div class="col-md-6">
+            {% if application.job.is_taken %}
+              {% if application.is_accepted %}
+                Diterima
+              {% else %}
+                Ditolak
+              {% endif %}
+            {% endif %}
+          </div>
+        </div>
+      {% endfor %}
+
+      <p class="mt-5"><b>Histori Pekerjaan</b></p>
+      {% if employments|length == 0 %}
+        <p>Belum ada pekerjaan.</p>
+      {% endif %}
+
+      {% for employment in employments %}
+        <div class="row mb-2">
+          <div class="col-md-6">
+            <a href="{% url 'job' id=employment.application.job.id %}">{{ employment.application.job.title }}</a>
+          </div>
+          <div class="col-md-6">
+            {% if employment.is_done %}
+              {{ employment.date_ended }}
+            {% else %}
+              Sedang mengerjakan
+            {% endif %}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+
+
+  <!-- Modal -->
+    <div class="modal fade" id="new-job">
+      <div class="modal-dialog">
+        <form class="modal-content" action="{% url 'create_job' %}" method="post">
+          {% csrf_token %}
+          <div class="modal-header">
+            <h5 class="modal-title">Buat Pekerjaan</h5>
+            <button type="button" class="close" data-dismiss="modal">
+              <span>&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <label for="title">Nama Pekerjaan</label>
+              <input type="text" class="form-control" id="title" name="title" placeholder="Nama" required autofocus>
+            </div>
+            <div class="form-group">
+              <label for="description">Deskripsi</label>
+              <textarea class="form-control" id="description" name="description" placeholder="Deskripsi" rows="8"></textarea>
+            </div>
+            <div class="form-group">
+              <label for="location">Lokasi</label>
+              <input type="text" class="form-control" id="location" name="location" placeholder="Lokasi">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+            <button type="submit" class="btn btn-primary">Buat</button>
+          </div>
+        </form>
+      </div>
+    </div>
+{% endblock %}

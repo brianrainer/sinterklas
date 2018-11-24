@@ -29,11 +29,93 @@
 
   <div class="row">
     <div class="col-md-8">
+
+      {% if messages %}
+        {% for message in messages %}
+          <div class="alert alert-success alert-dismissible fade show mt-3">
+            {{ message }}
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+          </div>
+        {% endfor %}
+      {% endif %}
+
       <h1>{{ job.title }}</h1>
       <div class="lead">{{ job.location }}</div>
       <div class="my-2">{{ job.description|linebreaks }}</div>
-      <div class="mb-4">Dibuat {{ job.date_created }}</div>
-      <a href="#" class="btn btn-primary btn-lg">Lamar Pekerjaan</a>
+      <div class="mb-5">Dibuat {{ job.date_created }} oleh <a href="{% url 'profile' username=job.user.username %}">{{ job.user.get_full_name }}</a></div>
+      <div class="mb-5">
+        {% if isOwner %}
+          <p><b>Daftar Pelamar</b></p>
+            {% if applications|length == 0 %}
+              <p>Belum ada lamaran.</p>
+            {% endif %}
+
+            {% for application in applications %}
+              <div class="row mb-3">
+                <div class="col-md-4">
+                  <a href="{% url 'profile' username=application.user.username %}">{{ application.user.get_full_name }}</a>
+                </div>
+                <div class="col-md-4">{{ application.date_created }}</div>
+                <div class="col-md-4">
+                  <form method="post" action="{% url 'accept_application' %}">
+                    {% csrf_token %}
+                    {% if employment is None %}
+                      <input type="hidden" name="id" value="{{ application.id }}">
+                      <button type="submit" class="btn btn-primary">Terima Lamaran</button>
+                    {% endif %}
+                  </form>
+                </div>
+              </div>
+            {% endfor %}
+          </ol>
+        {% elif not hasApplication %}
+          <form method="post" action="{% url 'apply_job' %}">
+            {% csrf_token %}
+            <input type="hidden" name="id" value="{{ job.id }}">
+            <button type="submit" class="btn btn-primary btn-lg">Lamar Pekerjaan</button>
+          </form>
+        {% endif %}
+      </div>
+      <div class="mb-5">
+        {% if employment %}
+          <p><b>Status</b></p>
+          <p>{% if employment.is_done %} Selesai {% else %} Sedang {% endif %} dikerjakan oleh <b><a href="{% url 'profile' username=employment.application.user.username %}">{{ employment.application.user.get_full_name }}.</a></b></p>
+          <p>{{ employment.date_started }} - {% if employment.is_done %}{{ employment.date_ended }}{% endif %}</p>
+        {% endif %}
+      </div>
+      <div class="mb-5">
+        {% if employment and not employment.is_done and isOwner %}
+          <p><b>Tandai Pekerjaan Selesai</b></p>
+          <p>Beri Rating:</p>
+          <form method="post" action="{% url 'finish_employment' %}">
+            {% csrf_token %}
+            <input type="hidden" name="id" value="{{ employment.id }}">
+            <div class="form-group">
+              <label for="rating">Rating</label>
+              <input type="number" min="1" max="5" name="rating" class="form-control" id="rating" placeholder="Rating 1-5">
+            </div>
+            <div class="form-group">
+              <label for="review">Review</label>
+              <textarea name="review" class="form-control" id="review" placeholder="Beri ulasan"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+        {% elif employment %}
+          <p><b>Ulasan</b></p>
+          <p>
+            {% for _ in "x"|rjust:employment.rating %}
+              <span class="fa fa-star checked"></span>
+            {% endfor %}
+          </p>
+          <p>{{ employment.review }}</p>
+        {% endif %}
+      </div>
     </div>
   </div>
+{% endblock %}
+
+{% block css %}
+  .checked {
+    color: orange;
+  }
 {% endblock %}

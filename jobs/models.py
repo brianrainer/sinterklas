@@ -8,6 +8,7 @@ class Job(models.Model):
     location = models.CharField(max_length=100, blank=True)
     date_created = models.DateTimeField(auto_now_add=True)
     is_taken = models.BooleanField(default=False)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.title
@@ -28,8 +29,8 @@ class Employment(models.Model):
     date_started = models.DateTimeField(auto_now_add=True)
     date_ended = models.DateTimeField(blank=True, null=True)
     is_done = models.BooleanField(default=False)
-    rating = models.IntegerField()
-    review = models.TextField()
+    rating = models.IntegerField(null=True)
+    review = models.TextField(blank=True, null=True)
 
     def __str__(self):
         return str(self.application)

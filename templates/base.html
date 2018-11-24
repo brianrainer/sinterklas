@@ -24,12 +24,21 @@
       <nav class="navbar navbar-expand navbar-light border-bottom mb-3">
         <a class="navbar-brand font-weight-bold" href="/">Sinterklas.com</a>
         <ul class="navbar-nav ml-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="#">Daftar</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Masuk</a>
-          </li>
+          {% if user.is_authenticated %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'dashboard' %}">Dasbor</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'logout' %}">Keluar</a>
+            </li>
+          {% else %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'register' %}">Daftar</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'login' %}">Masuk</a>
+            </li>
+          {% endif %}
         </ul>
       </nav>
 
